@@ -8,7 +8,7 @@ pacman::p_load_gh("umich-biostatistics/SEIRfansy", "maxsal/covid19india")
 # params ----------
 production   <- TRUE
 state        <- "tt" # use `tt` for India
-days_of_data <- 100
+days_of_data <- 360
 
 # setup -----------
 today      <- Sys.Date() - 1
@@ -33,7 +33,7 @@ max_date   <- as.Date(today - 1)
 min_date   <- max_date - (days_of_data - 1)
 obs_days   <- length(as.Date(min_date):as.Date(max_date))
 t_pred     <- 150 # number of predicted days
-N          <- pop %>% filter(abbrev == state) %>% pull(population)
+N_pop      <- pop %>% filter(abbrev == state) %>% pull(population)
 plt        <- FALSE
 save_plt   <- FALSE
 
@@ -64,7 +64,7 @@ result    <- SEIRfansy::SEIRfansy.predict(
   niter           = n_iter,
   BurnIn          = burn_in,
   model           = "Multinomial",
-  N               = N,
+  N               = N_pop,
   lambda          = 1/(69.416 * 365),
   mu              = 1/(69.416 * 365),
   period_start    = phases,

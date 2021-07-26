@@ -3,7 +3,7 @@
     "path": "~/Documents/projects/covid/covind_seirfansy_take2/r/run.R",
     "project_path": "r/run.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "1812068375",
     "contents": "",
     "dirty": false,
     "created": 1626291090402.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "105,0",
-        "scrollLine": "70"
+        "cursorPosition": "35,11",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1627340187,
+    "lastKnownWriteTime": 1627343224,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1627340187616,
+    "last_content_update": 1627343224682,
     "read_only": false,
     "read_only_alternatives": []
 }
