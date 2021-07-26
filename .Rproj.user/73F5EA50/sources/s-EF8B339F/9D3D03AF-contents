@@ -8,7 +8,7 @@ pacman::p_load_gh("umich-biostatistics/SEIRfansy", "maxsal/covid19india")
 # params ----------
 production   <- TRUE
 state        <- "tt" # use `tt` for India
-days_of_data <- 360
+days_of_data <- 100
 
 # setup -----------
 today      <- Sys.Date() - 1
