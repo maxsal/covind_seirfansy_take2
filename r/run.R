@@ -1,14 +1,10 @@
 # libraries --------
-if (!nzchar(system.file(package = "pacman"))) {
-  install.packages("pacman")
-  }
-pacman::p_load(tidyverse, arm, janitor, DescTools, patchwork, pbapply, here, glue, ggtext, scales)
-pacman::p_load_gh("umich-biostatistics/SEIRfansy", "maxsal/covid19india")
+libri(tidyverse, arm, janitor, DescTools, patchwork, pbapply, here, glue, ggtext, scales, umich-biostatistics/SEIRfansy, maxsal/covid19india)
 
 # params ----------
-production   <- TRUE
+production   <- FALSE
 state        <- "tt" # use `tt` for India
-days_of_data <- 100
+days_of_data <- 200
 
 # setup -----------
 today      <- Sys.Date() - 1
@@ -23,8 +19,8 @@ if (production == TRUE) {
   opt_num   <- 200
 } else {
   n_iter    <- 1e3 #default 1e5
-  burn_in   <- 1e2 #default 1e5
-  opt_num   <- 1   #default 200
+  burn_in   <- 1e3 #default 1e5
+  opt_num   <- 10  #default 200
 }
 
 # specs -----------
@@ -33,7 +29,7 @@ max_date   <- as.Date(today - 1)
 min_date   <- max_date - (days_of_data - 1)
 obs_days   <- length(as.Date(min_date):as.Date(max_date))
 t_pred     <- 150 # number of predicted days
-N_pop      <- pop %>% filter(abbrev == state) %>% pull(population)
+N          <- pop %>% filter(abbrev == state) %>% pull(population)
 plt        <- FALSE
 save_plt   <- FALSE
 
@@ -41,7 +37,7 @@ save_plt   <- FALSE
 data <- readr::read_csv("https://api.covid19india.org/csv/latest/state_wise_daily.csv",
                         col_types = cols()) %>%
   janitor::clean_names() %>%
-  dplyr::select("date" = "date_ymd", "status", "val" = tolower(state)) %>%
+  dplyr::select(date = date_ymd, status, val = tolower(state)) %>%
   arrange(date) %>%
   tidyr::pivot_wider(
     names_from  = "status",
@@ -64,7 +60,7 @@ result    <- SEIRfansy::SEIRfansy.predict(
   niter           = n_iter,
   BurnIn          = burn_in,
   model           = "Multinomial",
-  N               = N_pop,
+  N               = N,
   lambda          = 1/(69.416 * 365),
   mu              = 1/(69.416 * 365),
   period_start    = phases,
