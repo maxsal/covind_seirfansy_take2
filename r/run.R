@@ -106,6 +106,14 @@ obs <- bind_rows(get_nat_counts(), get_state_counts()) %>%
   dplyr::mutate(pred = 0)
 
 # all plot ----------
+pred_clean %>%
+  dplyr::filter(section == "positive_daily_reported") %>%
+  dplyr::select(place = state, date, daily_cases = mean, pred) %>%
+  # bind_rows(obs) %>%
+  mutate(pred = as.factor(pred)) %>%
+  ggplot(aes(x = date, y = daily_cases)) +
+  geom_line(aes(group = pred, color = pred), size = 1)
+
 (all_plot <- pred_clean %>%
   dplyr::filter(section == "positive_daily_reported" & pred == 1) %>%
   dplyr::select(place = state, date, daily_cases = mean, pred) %>%
